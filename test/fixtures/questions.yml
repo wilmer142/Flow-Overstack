@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  tittle: MyString
+  description: MyText
+  votes: 1
+
+two:
+  tittle: MyString
+  description: MyText
+  votes: 1
