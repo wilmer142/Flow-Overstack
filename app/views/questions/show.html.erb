@@ -1,2 +1,15 @@
-<h1>Questions#show</h1>
-<p>Find me in app/views/questions/show.html.erb</p>
+<h1><%= @question.title %></h1>
+<br>
+<div class="row">
+	<div class="col-md-1">
+		<h2><%= @question.votes %></h2>
+	</div>
+	<div class="col-md-11">
+		<p><%= @question.description %></p>
+		<hr>
+		<h3>Comentarios</h3>
+		<%= link_to 'Eliminar', @question, method: :delete, class: 'btn btn-primary' %>
+		<%= link_to 'Editar', edit_question_path(@question), class: 'btn btn-primary' %>
+		<%= link_to 'Comentar', {} , class: 'btn btn-primary' %>
+	</div>
+</div>

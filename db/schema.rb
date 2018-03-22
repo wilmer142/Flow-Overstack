@@ -10,14 +10,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180321180521) do
+ActiveRecord::Schema.define(version: 20180322002355) do
 
   create_table "questions", force: :cascade do |t|
-    t.string   "tittle"
+    t.string   "title"
     t.text     "description"
-    t.integer  "votes"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.integer  "votes",       default: 0
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
   end
 
 end
