@@ -2,5 +2,5 @@ class Answer < ApplicationRecord
   belongs_to :user
   belongs_to :question
 
-  validate :content, presence: true
+  validates :content, presence: true
 end
