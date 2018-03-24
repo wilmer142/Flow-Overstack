@@ -1,13 +1,14 @@
 <h1>Preguntas</h1>
 <%= link_to 'Añadir Pregunta', new_question_path, class: "btn btn-primary" %>
 <% @questions.each do |question| %>	
+	<hr>
 	<div class="row">
 		<div class="col-md-2">
 			<h2><%= question.votes %></h2>
 			<h4>Votos</h4>
 		</div>
 		<div class="col-md-2">
-			<h2>#Respuestas</h2>
+			<h2><%= question.answers.length %></h2>
 			<h4>Respuestas</h4>
 		</div>
 		<div class="col-md-8">

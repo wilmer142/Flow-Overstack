@@ -5,11 +5,56 @@
 		<h2><%= @question.votes %></h2>
 	</div>
 	<div class="col-md-11">
-		<p><%= @question.description %></p>
+		<h3><%= @question.description %></h3>
 		<hr>
-		<h3>Comentarios</h3>
-		<%= link_to 'Eliminar', @question, method: :delete, class: 'btn btn-primary' %>
-		<%= link_to 'Editar', edit_question_path(@question), class: 'btn btn-primary' %>
-		<%= link_to 'Comentar', {} , class: 'btn btn-primary' %>
+		<h5>Comentarios de pregunta</h5>
+		<div class="btn-group btn-group-right">
+			<% if !current_user.nil? %>
+				<% if @question[:user_id] == current_user[:id] %>
+					<%= link_to 'Eliminar Pregunta', @question, method: :delete, class: 'btn btn-primary' %>
+					<%= link_to 'Editar Pregunta', edit_question_path(@question), class: 'btn btn-primary' %>
+				<% end %>
+			<% end %>
+			<%= link_to 'Comentar', {} , class: 'btn btn-primary' %>	
+		</div>
 	</div>
 </div>
+
+<br>
+<h1><%= @question.answers.length %> Respuesta(s)</h1>
+<hr>
+
+<% if @question.answers.length == 0 %>
+	<p>Si conoces a alguien que pueda responder a esta pregunta, por favor contactalo y dile que lo necesitamos con urgencia</p>
+<% else %>
+	<% @question.answers.each do |answer| %>
+		<div class="row">
+			<div class="col-md-1">
+				<h2><%= answer.votes %></h2>
+			</div>
+			<div class="col-md-11">
+				<h3><%= answer.content %></h3>
+				<hr>
+				<h5>Comentarios de respuesta</h5>
+				<div class="btn-group btn-group-right">
+					<% if !current_user.nil? %>
+						<%= link_to 'Eliminar Respuesta', answer, method: :delete, class: 'btn btn-primary' if answer[:user_id] == current_user[:id] %>
+					<% end %>
+					<%= link_to 'Comentar', {}, class: 'btn btn-primary' %>	
+				</div>
+			</div>
+		</div>
+	<% end %>
+<% end %>
+
+<h2>Tu Respuesta</h2>
+<hr>
+<%= form_for @answer, :url => answers_path do |f| %>
+	<%= f.hidden_field :question_id, value: @question[:id] %>
+	<%= f.hidden_field :user_id, value: current_user[:id] if !current_user.nil? %>
+	<div class="form-group">
+		<%= f.text_area :content, rows: 5, class: "form-control" %>	
+	</div>
+	
+	<%= f.submit 'Enviar Respuesta', class: 'btn btn-primary' %>
+<% end %>
