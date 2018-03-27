@@ -1,9 +1,37 @@
 <h1><%= @question.title %></h1>
-<br>
+<hr>
 <div class="row">
 	<div class="col-md-1">
-		<h2><%= @question.votes %></h2>
-	</div>
+		<div class="container-votes">
+			<div>
+				<%= form_for @vote, url: voteup_path do |f| %>
+					<%= f.hidden_field :voteable_id, value: @question[:id] %>
+					<%= f.hidden_field :user_id, value: current_user[:id] if !current_user.nil? %>
+					<%= f.hidden_field :voteable_type, value: "Question" %>
+					<%= image_submit_tag("up.png", class: 'vote-icon') %>
+				<% end %>	
+			</div>
+			
+			<div>
+				<% if @question_has_voted.nil? %>
+					<h3 class="vote"><%= @question.votes.length %></h3>	
+				<% else %>
+					<h3 class="vote has-vote"><%= @question.votes.length %></h3>	
+				<% end %>	
+			</div>
+			
+			<div>
+				<%= form_for @vote, url: votedown_path do |f| %>
+					<%= f.hidden_field :voteable_id, value: @question[:id] %>
+					<%= f.hidden_field :user_id, value: current_user[:id] if !current_user.nil? %>
+					<%= f.hidden_field :voteable_type, value: "Question" %>
+					<%= image_submit_tag("down.png", class: 'vote-icon') %>
+				<% end %>	
+			</div>
+			
+		</div>
+	</div>	
+	
 	<div class="col-md-11">
 		<h3><%= @question.description %></h3>
 		<hr>
@@ -21,7 +49,7 @@
 </div>
 
 <br>
-<h1><%= @question.answers.length %> Respuesta(s)</h1>
+<h3><%= @question.answers.length %> Respuesta(s)</h3>
 <hr>
 
 <% if @question.answers.length == 0 %>
@@ -30,7 +58,34 @@
 	<% @question.answers.each do |answer| %>
 		<div class="row">
 			<div class="col-md-1">
-				<h2><%= answer.votes %></h2>
+				<div class="container-votes">
+					<div>
+						<%= form_for @vote, url: voteup_path do |f| %>
+							<%= f.hidden_field :voteable_id, value: answer[:id] %>
+							<%= f.hidden_field :user_id, value: current_user[:id] if !current_user.nil? %>
+							<%= f.hidden_field :voteable_type, value: "Answer" %>
+							<%= image_submit_tag("up.png", class: 'vote-icon') %>
+						<% end %>	
+					</div>
+					
+					<div>
+						<% if @answer_has_voted.nil? %>
+							<h3 class="vote"><%= answer.votes.length %></h3>	
+						<% else %>
+							<h3 class="vote has-vote"><%= answer.votes.length %></h3>	
+						<% end %>	
+					</div>
+					
+					<div>
+						<%= form_for @vote, url: votedown_path do |f| %>
+							<%= f.hidden_field :voteable_id, value: answer[:id] %>
+							<%= f.hidden_field :user_id, value: current_user[:id] if !current_user.nil? %>
+							<%= f.hidden_field :voteable_type, value: "Answer" %>
+							<%= image_submit_tag("down.png", class: 'vote-icon') %>
+						<% end %>	
+					</div>
+					
+				</div>
 			</div>
 			<div class="col-md-11">
 				<h3><%= answer.content %></h3>
@@ -47,7 +102,7 @@
 	<% end %>
 <% end %>
 
-<h2>Tu Respuesta</h2>
+<h3>Tu Respuesta</h3>
 <hr>
 <%= form_for @answer, :url => answers_path do |f| %>
 	<%= f.hidden_field :question_id, value: @question[:id] %>
@@ -55,6 +110,5 @@
 	<div class="form-group">
 		<%= f.text_area :content, rows: 5, class: "form-control" %>	
 	</div>
-	
 	<%= f.submit 'Enviar Respuesta', class: 'btn btn-primary' %>
 <% end %>

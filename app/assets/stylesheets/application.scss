@@ -19,3 +19,27 @@ body { padding: 70px 70px; }
 .btn-group-right {
 	float: right;
 }
+
+.vote-icon {
+	width: 35px;
+	height: 35px;
+}
+
+h3.vote {
+	padding-bottom: 6px;
+}
+
+h3.has-vote {
+	color: orange;
+}
+
+.questions {
+	margin-left: 40px;
+}
+
+.container-votes {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
