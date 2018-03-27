@@ -3,17 +3,33 @@
 <% @questions.each do |question| %>	
 	<hr>
 	<div class="row">
-		<div class="col-md-2">
-			<h2><%= question.votes %></h2>
-			<h4>Votos</h4>
+		<div class="col-md-1">
+			<div class="container-votes">
+				<h2><%= question.votes.length %></h2>
+				<h5>Votos</h5>	
+			</div>
 		</div>
-		<div class="col-md-2">
-			<h2><%= question.answers.length %></h2>
-			<h4>Respuestas</h4>
+
+		<div class="col-md-1">
+			<div class="container-votes">
+				<h2><%= question.answers.length %></h2>
+				<h5>Respuestas</h5>	
+			</div>
 		</div>
-		<div class="col-md-8">
-			<h2><%= link_to "#{question.title}", question_path(question) %></h2>
-			<h4>hace <%= question.created_at %> dias</h4>
+
+		<div class="col-md-10">
+			<div class="questions container-votes" style="align-items: flex-start;" >
+				<h2><%= link_to "#{question.title}", question_path(question), class: 'question-title' %></h2>
+				<h5>Preguntó <%= question.user.email %> hace 
+					<% tiempo_pregunta_creada = ((Time.now - question.created_at) / 1.hour).round %>
+					<% if tiempo_pregunta_creada < 25 %>
+						<%= "#{tiempo_pregunta_creada} horas" %>
+					<% else %>
+						<%= "#{(tiempo_pregunta_creada / 24 ).round} días" %>
+					<% end %>
+				</h5>	
+			</div>
 		</div>
+
 	</div>
 <% end %>

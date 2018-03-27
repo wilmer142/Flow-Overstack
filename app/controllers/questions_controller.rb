@@ -9,6 +9,12 @@ class QuestionsController < ApplicationController
   def show
   	@question = Question.find(params[:id])
     @answer = Answer.new
+    @vote = Vote.new
+    current_user.nil? ? user_vote = 0 : user_vote = current_user[:id]
+    @question_has_voted = Vote.find_by(voteable_id: params[:id], user_id: user_vote, 
+      voteable_type: 'Question')
+    @answer_has_voted = Vote.find_by(voteable_id: params[:id], user_id: user_vote, 
+      voteable_type: 'Answer')
   end
 
   def new
