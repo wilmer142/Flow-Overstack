@@ -3,7 +3,11 @@ class QuestionsController < ApplicationController
 	before_action :authenticate_user!, :except => [:show, :index]
 
   def index
-  	@questions = Question.all
+    if params.nil?
+      @questions = Question.all
+    else
+      @questions = Question.where("title like ?", "%#{params["filtro"]}%").or(Question.where("description like ?", "%#{params["filtro"]}%"))
+    end
   end
   
   def show
@@ -11,10 +15,13 @@ class QuestionsController < ApplicationController
     @answer = Answer.new
     @vote = Vote.new
     current_user.nil? ? user_vote = 0 : user_vote = current_user[:id]
+
     @question_has_voted = Vote.find_by(voteable_id: params[:id], user_id: user_vote, 
       voteable_type: 'Question')
     @answer_has_voted = Vote.find_by(voteable_id: params[:id], user_id: user_vote, 
       voteable_type: 'Answer')
+
+    @comment = Comment.new
   end
 
   def new

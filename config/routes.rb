@@ -9,6 +9,8 @@ Rails.application.routes.draw do
 
 	resources :answers, only: [:create, :update, :destroy]
 
+	resources :comments, only: [:create]
+
 	devise_for :users
 
 end
