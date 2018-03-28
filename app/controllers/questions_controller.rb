@@ -18,9 +18,6 @@ class QuestionsController < ApplicationController
 
     @question_has_voted = Vote.find_by(voteable_id: params[:id], user_id: user_vote, 
       voteable_type: 'Question')
-    @answer_has_voted = Vote.find_by(voteable_id: params[:id], user_id: user_vote, 
-      voteable_type: 'Answer')
-
     @comment = Comment.new
   end
 

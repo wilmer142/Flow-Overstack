@@ -10,7 +10,13 @@ class VotesController < ApplicationController
 			vote_params[:voteable_type] == 'Question' ?  tipo = "Pregunta" : tipo = "Respuesta"
 			flash[:warning] = "#{@vote.errors.messages[:user_id][0]} para esta #{tipo}"
 		end
-		redirect_to question_path(vote_params[:voteable_id])
+
+		if vote_params[:voteable_type] == 'Question'
+			redirect_to question_path(vote_params[:voteable_id])
+		else
+			@answer = Answer.find(vote_params[:voteable_id])
+			redirect_to question_path(@answer.question_id)
+		end
 	end
 
 	def votedown
@@ -27,7 +33,13 @@ class VotesController < ApplicationController
 				(flash[:warning] = "No tiene un voto registrado para esta pregunta") :
 				(flash[:warning] = "No tiene un voto registrado para esta respuesta")
 		end
-		redirect_to question_path(vote_params[:voteable_id])
+		
+		if vote_params[:voteable_type] == 'Question'
+			redirect_to question_path(vote_params[:voteable_id])
+		else
+			@answer = Answer.find(vote_params[:voteable_id])
+			redirect_to question_path(@answer.question_id)
+		end
 	end
 
 	private 
