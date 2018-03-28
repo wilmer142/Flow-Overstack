@@ -17,6 +17,7 @@
 body { padding: 70px 70px; }
 
 .btn-group-right {
+	margin: 10px 0;
 	float: right;
 }
 
@@ -31,6 +32,14 @@ h3.vote {
 
 h3.has-vote {
 	color: orange;
+}
+
+h5 {
+	color: #a3a3a3;
+}
+
+h5.subindex {
+	padding-left: 20px;
 }
 
 .questions {

@@ -35,16 +35,33 @@
 	<div class="col-md-11">
 		<h3><%= @question.description %></h3>
 		<hr>
-		<h5>Comentarios de pregunta</h5>
-		<div class="btn-group btn-group-right">
-			<% if !current_user.nil? %>
-				<% if @question[:user_id] == current_user[:id] %>
-					<%= link_to 'Eliminar Pregunta', @question, method: :delete, class: 'btn btn-primary' %>
-					<%= link_to 'Editar Pregunta', edit_question_path(@question), class: 'btn btn-primary' %>
-				<% end %>
+		<div>
+			<% @question.comments.each do |comment| %>
+				<h5 class="subindex"><%= comment.description %> - <strong><%= comment.user.email %></strong></h5>
+				<hr>
 			<% end %>
-			<%= link_to 'Comentar', {} , class: 'btn btn-primary' %>	
 		</div>
+		
+		<div class="form-group">
+			<%= form_for @comment, url: comments_path do |f| %>
+				<%= f.hidden_field :commentable_id, value: @question[:id] %>
+				<%= f.hidden_field :commentable_type, value: "Question" %>
+				<%= f.hidden_field :user_id, value: current_user[:id] if !current_user.nil? %>
+				<%= f.text_area :description, rows: 3, placeholder: "Agregar un comentario", class:"form-control" %>
+
+				<div class="btn-group-right">
+					<%= f.submit 'Comentar', class: 'btn btn-primary' %>	
+					<% if !current_user.nil? %>
+						<% if @question[:user_id] == current_user[:id] %>
+							<%= link_to 'Eliminar Pregunta', @question, method: :delete, class: 'btn btn-primary' %>
+							<%= link_to 'Editar Pregunta', edit_question_path(@question), class: 'btn btn-primary' %>
+						<% end %>
+					<% end %>
+				</div>
+
+			<% end %>	
+		</div>
+		
 	</div>
 </div>
 
@@ -90,13 +107,29 @@
 			<div class="col-md-11">
 				<h3><%= answer.content %></h3>
 				<hr>
-				<h5>Comentarios de respuesta</h5>
-				<div class="btn-group btn-group-right">
-					<% if !current_user.nil? %>
-						<%= link_to 'Eliminar Respuesta', answer, method: :delete, class: 'btn btn-primary' if answer[:user_id] == current_user[:id] %>
+				<div>
+					<% answer.comments.each do |comment| %>
+						<h5 class="subindex"><%= comment.description %> - <strong><%= comment.user.email %></strong></h5>
+						<hr>
 					<% end %>
-					<%= link_to 'Comentar', {}, class: 'btn btn-primary' %>	
 				</div>
+
+				<div class="form-group">
+					<%= form_for @comment, url: comments_path do |f| %>
+						<%= f.hidden_field :commentable_id, value: answer[:id] %>
+						<%= f.hidden_field :commentable_type, value: "Answer" %>
+						<%= f.hidden_field :user_id, value: current_user[:id] if !current_user.nil? %>
+						<%= f.text_area :description, rows: 3, placeholder: "Agregar un comentario", class:"form-control" %>
+
+						<div class="btn-group-right">
+							<%= f.submit 'Comentar', class: 'btn btn-primary' %>
+							<% if !current_user.nil? %>
+								<%= link_to 'Eliminar Respuesta', answer, method: :delete, class: 'btn btn-primary' if answer[:user_id] == current_user[:id] %>
+							<% end %>
+						</div>
+					<% end %>	
+				</div>
+
 			</div>
 		</div>
 	<% end %>
