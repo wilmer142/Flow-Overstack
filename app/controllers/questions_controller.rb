@@ -6,7 +6,11 @@ class QuestionsController < ApplicationController
     if params.nil?
       @questions = Question.all
     else
-      @questions = Question.where("title like ?", "%#{params["filtro"]}%").or(Question.where("description like ?", "%#{params["filtro"]}%"))
+      @users = User.where("email like ?", "%#{params["filtro"]}%")
+      @questions = Question.new
+      @users.each do |user|
+        @questions = Question.where("title like ?", "%#{params["filtro"]}%").or(Question.where("description like ?", "%#{params["filtro"]}%")).or(Question.where("user_id = ?", "#{user[:id]}"))
+      end
     end
   end
   
