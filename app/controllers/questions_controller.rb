@@ -3,14 +3,19 @@ class QuestionsController < ApplicationController
 	before_action :authenticate_user!, :except => [:show, :index]
 
   def index
-    if params.nil?
+    if params["filtro"].nil?
       @questions = Question.all
     else
       @users = User.where("email like ?", "%#{params["filtro"]}%")
       @questions = Question.new
-      @users.each do |user|
-        @questions = Question.where("title like ?", "%#{params["filtro"]}%").or(Question.where("description like ?", "%#{params["filtro"]}%")).or(Question.where("user_id = ?", "#{user[:id]}"))
+      if !@users.blank?
+        @users.each do |user|
+          @questions = Question.where("title like ?", "%#{params["filtro"]}%").or(Question.where("description like ?", "%#{params["filtro"]}%")).or(Question.where("user_id = ?", "#{user[:id]}"))
+        end  
+      else
+        @questions = Question.where("title like ?", "%#{params["filtro"]}%").or(Question.where("description like ?", "%#{params["filtro"]}%"))
       end
+      
     end
   end
   
