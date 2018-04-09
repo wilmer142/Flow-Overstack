@@ -50,8 +50,8 @@
 				<%= f.text_area :description, rows: 3, placeholder: "Agregar un comentario", class:"form-control" %>
 
 				<div class="btn-group-right">
-					<%= f.submit 'Comentar', class: 'btn btn-primary' %>	
 					<% if !current_user.nil? %>
+						<%= f.submit 'Comentar', class: 'btn btn-primary' %>	
 						<% if @question[:user_id] == current_user[:id] %>
 							<%= link_to 'Eliminar Pregunta', @question, method: :delete, data: {confirm: '¿Está seguro de eliminar la pregunta?. Las respuestas, comentarios y votos asociados a ella no podrán visualizarse'}, class: 'btn btn-primary' %>
 							<%= link_to 'Editar Pregunta', edit_question_path(@question), class: 'btn btn-primary' %>
@@ -146,5 +146,7 @@
 	<div class="form-group">
 		<%= f.text_area :content, rows: 5, class: "form-control" %>	
 	</div>
-	<%= f.submit 'Enviar Respuesta', class: 'btn btn-primary' %>
+	<% if !current_user.nil? %>
+		<%= f.submit 'Enviar Respuesta', class: 'btn btn-primary' %>
+	<% end %>	
 <% end %>
