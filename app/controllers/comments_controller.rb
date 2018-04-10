@@ -5,9 +5,8 @@ class CommentsController < ApplicationController
 		if @comment.save
 			flash[:success] = "Comentario añadido exitosamente!"
 		else
-			flash[:danger] = "#{@comment.errors.messages}"
+			flash[:danger] = @comment.errors.full_messages.to_sentence
 		end
-
 		if comment_params[:commentable_type] == 'Question'
 			redirect_to question_path(comment_params[:commentable_id])
 		else

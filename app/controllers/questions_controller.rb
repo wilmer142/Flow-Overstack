@@ -41,7 +41,7 @@ class QuestionsController < ApplicationController
 			flash[:success] = "Pregunta agregada exitosamente!"
 			redirect_to questions_path  	
 		else
-			flash[:danger] = "Ha ocurrido un error"
+			flash[:danger] = @question.errors.full_messages.to_sentence
 			render :new
 		end
   end
