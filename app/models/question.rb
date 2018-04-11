@@ -5,6 +5,6 @@ class Question < ApplicationRecord
 	has_many :votes, as: :voteable, dependent: :destroy
 	has_many :comments, as: :commentable, dependent: :destroy
 
-	validates :title, :description, presence: true
+	validates :title, :description, presence: {message: "no puede estar vacio"}
 
 end
